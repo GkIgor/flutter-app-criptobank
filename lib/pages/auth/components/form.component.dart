@@ -1,5 +1,5 @@
-import 'package:criptobank/pages/core/states/auth/auth.states.dart';
-import 'package:criptobank/pages/core/styles/styles.styles.dart';
+import 'package:criptobank/core/states/auth/auth.states.dart';
+import 'package:criptobank/core/styles/styles.styles.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
@@ -13,8 +13,7 @@ class _AuthFormState extends State<AuthForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-
+  final AuthState _auth = AuthState();
 
   String? _userValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -32,7 +31,11 @@ class _AuthFormState extends State<AuthForm> {
 
   void _submitForm() {
     if (_formKey.currentState == null) return;
-    if (_formKey.currentState!.validate()) AuthState().addAuth();
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _auth.addAuth(_userController.text, _passwordController.text);
+      });
+    }
   }
 
   @override
@@ -42,29 +45,36 @@ class _AuthFormState extends State<AuthForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            decoration: StylesProgram.inputDecoration,
-            child: TextFormField(
-              controller: _userController,
-              decoration: const InputDecoration(
-                hintText: "Usuario",
-              ),
-              validator: (String? value) => _userValidator(value),
+          TextFormField(
+            controller: _userController,
+            decoration: const InputDecoration(
+              hintText: "Usuario",
+              contentPadding: StylesProgram.contentPadding,
+              border: OutlineInputBorder(),
+              fillColor: Colors.white,
+              filled: true,
+              errorStyle: StylesProgram.errorStyle,
             ),
+            validator: (String? value) => _userValidator(value),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
           ),
-          Container(
-            decoration: StylesProgram.inputDecoration,
-            child: TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                hintText: "Senha",
-              ),
-              obscureText: true,
-              validator: (String? value) => _passwordValidator(value),
+          TextFormField(
+            controller: _passwordController,
+            decoration: const InputDecoration(
+              hintText: "Senha",
+              contentPadding: StylesProgram.contentPadding,
+              border: OutlineInputBorder(),
+              fillColor: Colors.white,
+              filled: true,
+              errorStyle: StylesProgram.errorStyle,
             ),
+            obscureText: true,
+            validator: (String? value) => _passwordValidator(value),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Container(
             color: Colors.purple,

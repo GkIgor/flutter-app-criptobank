@@ -23,7 +23,8 @@ class AuthPage extends StatelessWidget {
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Usuário', style: TextStyle(fontSize: 24)),
+            Text('Login', style: TextStyle(fontSize: 24)),
+            SizedBox(height: 20),
             AuthForm(),
           ],
         ),
